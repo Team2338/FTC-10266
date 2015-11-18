@@ -77,7 +77,7 @@ public class PushBotTelemetry extends Hardware
         //
         // Send telemetry data to the driver station.
         //
-        telemetry.addData("Arm Position", armPosition.getCurrentPosition());
+
         telemetry.addData
             ( "01"
             , "Left Drive: "
