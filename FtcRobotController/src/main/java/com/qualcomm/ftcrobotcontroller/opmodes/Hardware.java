@@ -27,16 +27,6 @@ public class Hardware extends TeleOp {
 
     }
 
-    public double armPosition_Power() {
-        double motorPower = 0.0;
-
-        if (armPosition != null) {
-            motorPower = armPosition.getPower();
-        }
-
-        return motorPower;
-    }
-
 }
 
 
