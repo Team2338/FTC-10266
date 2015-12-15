@@ -5,16 +5,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 
-/**
- * Created by Lev on 27.10.2015.
- */
+
 public class TeleOp extends OpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
-    DcMotor armAngleLeft;
-    DcMotor armAngleRight;
+    DcMotor armAngle;
     DcMotor armExtension;
-    Servo finger;
+    Servo fingerLeft;
+    Servo fingerRight;
     float leftY = 0;
     float rightY = 0;
 
@@ -24,12 +22,12 @@ public class TeleOp extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("right_drive");
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        armAngleLeft = hardwareMap.dcMotor.get("arm_angle_left");
-        armAngleRight = hardwareMap.dcMotor.get("arm angle right");
+        armAngle = hardwareMap.dcMotor.get("arm_angle");
 
         armExtension = hardwareMap.dcMotor.get("arm_extension");
 
-        finger = hardwareMap.servo.get("finger");
+        fingerLeft = hardwareMap.servo.get("finger_left");
+        fingerRight = hardwareMap.servo.get("finger_right");
     }
 
     @Override
@@ -39,45 +37,37 @@ public class TeleOp extends OpMode {
         leftMotor.setPower(leftY);
         rightMotor.setPower(rightY);
 
-        if (gamepad2.left_bumper)
-        {
-            finger.setPosition(0.42);
-        }
-        else if (gamepad2.right_bumper)
-        {
-            finger.setPosition(1.0);
+        if (gamepad2.left_bumper) {
+            fingerLeft.setPosition(0.42);
+        } else if (gamepad2.right_bumper) {
+            fingerLeft.setPosition(1.0);
         }
 
-       if (gamepad2.dpad_up)
-        {
-            armAngleLeft.setPower(0.1);
-            armAngleRight.setPower(0.1);
-        }
-        else if (gamepad2.dpad_down)
-        {
-            armAngleLeft.setPower(-0.1);
-            armAngleRight.setPower(-0.1);
-        }
-        else {
-            armAngleLeft.setPower(0);
-            armAngleRight.setPower(0);
+        if (gamepad2.x) {
+            fingerRight.setPosition(1.0);
+        } else if (gamepad2.b) {
+            fingerRight.setPosition(0.42);
         }
 
-        if (gamepad2.y)
-        {
-            armExtension.setPower(0.5);
+        if (gamepad2.dpad_up) {
+            armAngle.setPower(0.1);
+        } else if (gamepad2.dpad_down) {
+            armAngle.setPower(-0.1);
+        } else {
+            armAngle.setPower(0);
         }
-        else if (gamepad2.a)
-        {
+
+        if (gamepad2.y) {
             armExtension.setPower(-0.5);
-        }
-        else
-        {
+        } else if (gamepad2.a) {
+            armExtension.setPower(0.5);
+        } else {
             armExtension.setPower(0);
         }
 
-        telemetry.addData("Arm Angle Position (Left): ", armAngleLeft.getCurrentPosition());
-        telemetry.addData("Arm Angle Position (Right): ", armAngleRight.getCurrentPosition());
-        telemetry.addData("Finger Position", finger.getPosition());
+        telemetry.addData("Arm Angle Position (Right): ", armAngle.getCurrentPosition());
+        telemetry.addData("Left Finger Position", fingerLeft.getPosition());
+        telemetry.addData("Right Finger Position", fingerRight.getPosition());
     }
 }
+//goats teleported per turn: 5

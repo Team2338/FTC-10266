@@ -88,11 +88,6 @@ public class PushBotTelemetry extends Hardware
             , "Right Drive: "
                 + rightDrive_Power ()
             );
-        telemetry.addData
-            ( "03"
-            , "Arm Position: "
-                + armPosition_Power ()
-            );
 
     } // update_telemetry
 
