@@ -13,8 +13,10 @@ public class TeleOp extends OpMode {
     DcMotor armExtension;
     Servo fingerLeft;
     Servo fingerRight;
-    float leftY = 0;
-    float rightY = 0;
+    float oneLeftY = 0;
+    float oneRightY = 0;
+    float twoLeftY = 0;
+    float twoRightY = 0;
 
     @Override
     public void init() {
@@ -32,10 +34,15 @@ public class TeleOp extends OpMode {
 
     @Override
     public void loop() {
-        leftY = -gamepad1.left_stick_y;
-        rightY = -gamepad1.right_stick_y;
-        leftMotor.setPower(leftY);
-        rightMotor.setPower(rightY);
+        oneLeftY = -gamepad1.left_stick_y;
+        oneRightY = -gamepad1.right_stick_y;
+        twoLeftY = gamepad2.left_stick_y;
+        twoRightY = gamepad2.right_stick_y;
+
+        leftMotor.setPower(oneLeftY);
+        rightMotor.setPower(oneRightY);
+        armAngle.setPower(twoLeftY);
+        armExtension.setPower(twoRightY);
 
         if (gamepad2.left_bumper) {
             fingerLeft.setPosition(0.42);
@@ -47,22 +54,6 @@ public class TeleOp extends OpMode {
             fingerRight.setPosition(1.0);
         } else if (gamepad2.b) {
             fingerRight.setPosition(0.42);
-        }
-
-        if (gamepad2.dpad_up) {
-            armAngle.setPower(0.1);
-        } else if (gamepad2.dpad_down) {
-            armAngle.setPower(-0.1);
-        } else {
-            armAngle.setPower(0);
-        }
-
-        if (gamepad2.y) {
-            armExtension.setPower(-0.5);
-        } else if (gamepad2.a) {
-            armExtension.setPower(0.5);
-        } else {
-            armExtension.setPower(0);
         }
 
         telemetry.addData("Arm Angle Position (Right): ", armAngle.getCurrentPosition());
