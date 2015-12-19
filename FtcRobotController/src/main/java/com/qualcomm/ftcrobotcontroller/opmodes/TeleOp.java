@@ -16,7 +16,6 @@ public class TeleOp extends OpMode {
     float oneLeftY = 0;
     float oneRightY = 0;
     float twoLeftY = 0;
-    float twoRightY = 0;
 
     @Override
     public void init() {
@@ -30,6 +29,8 @@ public class TeleOp extends OpMode {
 
         fingerLeft = hardwareMap.servo.get("finger_left");
         fingerRight = hardwareMap.servo.get("finger_right");
+        fingerLeft.setPosition(1.0);
+        fingerRight.setPosition(1.0);
     }
 
     @Override
@@ -37,12 +38,10 @@ public class TeleOp extends OpMode {
         oneLeftY = -gamepad1.left_stick_y;
         oneRightY = -gamepad1.right_stick_y;
         twoLeftY = gamepad2.left_stick_y;
-        twoRightY = gamepad2.right_stick_y;
 
         leftMotor.setPower(oneLeftY);
         rightMotor.setPower(oneRightY);
-        armAngle.setPower(twoLeftY);
-        armExtension.setPower(twoRightY);
+        armExtension.setPower(twoLeftY);
 
         if (gamepad2.left_bumper) {
             fingerLeft.setPosition(0.42);
@@ -56,9 +55,16 @@ public class TeleOp extends OpMode {
             fingerRight.setPosition(0.42);
         }
 
-        telemetry.addData("Arm Angle Position (Right): ", armAngle.getCurrentPosition());
+        if (gamepad2.y) {
+            armAngle.setPower(0.20);
+        } else if (gamepad2.a) {
+            armAngle.setPower(-0.20);
+        } else {
+            armAngle.setPower(0.0);
+        }
+
+        telemetry.addData("Arm Angle Position: ", armAngle.getCurrentPosition());
         telemetry.addData("Left Finger Position", fingerLeft.getPosition());
         telemetry.addData("Right Finger Position", fingerRight.getPosition());
     }
 }
-//goats teleported per turn: 5
