@@ -29,8 +29,6 @@ public class TeleOp extends OpMode {
 
         fingerLeft = hardwareMap.servo.get("finger_left");
         fingerRight = hardwareMap.servo.get("finger_right");
-        fingerLeft.setPosition(1.0);
-        fingerRight.setPosition(1.0);
     }
 
     @Override
@@ -50,9 +48,9 @@ public class TeleOp extends OpMode {
         }
 
         if (gamepad2.x) {
-            fingerRight.setPosition(1.0);
+            fingerRight.setPosition(0.4);
         } else if (gamepad2.b) {
-            fingerRight.setPosition(0.42);
+            fingerRight.setPosition(0.8);
         }
 
         if (gamepad2.y) {
